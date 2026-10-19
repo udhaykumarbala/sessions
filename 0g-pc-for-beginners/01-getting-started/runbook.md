@@ -16,6 +16,12 @@ for a Claude subscription.
 Two things don't carry into the sandbox: the macOS keychain (so the key lives
 in `settings.json`, the same as the 0G docs) and your `gh` login.
 
+A different `HOME` alone isn't enough. The model sees `/Users/will/DemoHome`,
+guesses that `~` means `/Users/will`, and reads or edits your real
+`~/.claude-0g` and `~/.claude/CLAUDE.md`. So the demo shell also runs under
+`sandbox-exec`, which blocks everything under `/Users/will` except `DemoHome`.
+A wrong guess then fails harmlessly instead of touching your config.
+
 Every run, rehearsal included, uses your usual PC account with fresh keys,
 revoked straight after:
 
@@ -29,18 +35,30 @@ For a rehearsal, swap in that day's date.
 ## Before: prep and rehearse (15 min)
 
 1. Make the sandbox. Homebrew goes on `PATH` so `gh` exists, like a typical
-   Mac:
+   Mac. The sandbox profile lives outside `DemoHome`, so a reset keeps it:
 
    ```sh
    mkdir -p ~/DemoHome && touch ~/DemoHome/.zshrc
    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' > ~/DemoHome/.zprofile
+   cat > ~/demo-sandbox.sb <<'EOF'
+   (version 1)
+   (allow default)
+   (deny file-read* file-write* (subpath "/Users/will"))
+   (allow file-read* file-write* (subpath "/Users/will/DemoHome"))
+   (allow file-read-metadata (literal "/Users/will"))
+   EOF
    ```
 
-2. Open it (save this as a Terminal profile or alias, you'll run it twice):
+2. Open it (save this as a Terminal profile or alias, you'll run it twice).
+   The `cd` comes first because a shell started outside `DemoHome` can't read
+   its own working folder once sandboxed:
 
    ```sh
-   env -i HOME="$HOME/DemoHome" USER="$USER" LOGNAME="$USER" TERM="$TERM" LANG=en_GB.UTF-8 SHELL=/bin/zsh zsh -l
+   cd ~/DemoHome && sandbox-exec -f ~/demo-sandbox.sb env -i HOME="$HOME/DemoHome" USER="$USER" LOGNAME="$USER" TERM="$TERM" LANG=en_GB.UTF-8 SHELL=/bin/zsh zsh -l
    ```
+
+   Check it: `cat /Users/will/.claude-0g/settings.json` should fail with
+   `Operation not permitted`.
 
    Inside it, set a git identity so commits don't stall on stage:
 
