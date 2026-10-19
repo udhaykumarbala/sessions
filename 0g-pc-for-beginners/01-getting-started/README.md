@@ -1,33 +1,9 @@
 # 1. Getting Started
 
-Session 1 of [0G PC for Beginners](../): the basics of working with AI, then
-Claude Code running on [0G Private Computer](https://pc.0g.ai) (PC) models.
-If you missed the session, everything you need is here.
-[Slides](https://slides.riches.im/2026-10-20%200G%20PC%20for%20Beginners%201/)
-
-## What PC gives you
-
-- **Open models** like GLM, DeepSeek and MiMo, all through one API key
-- **Privacy**, with TEE-attested providers
-- **Low cost**, paid per token with no subscription
-
-And what to expect:
-
-- **Slower replies.** Give it fewer, clearer asks.
-- **No web search.** Give it the page, or a URL to fetch.
-- **More slips.** Most AI tools are tuned for Claude, so check the work.
-
-## AI basics
-
-1. **Pick the right tool.** A CLI agent like Claude Code works on your machine
-   and has the most power. Use specialised tools when the output is visual.
-2. **Give it everything.** Low entropy in, low quality out. Paste the docs,
-   PDFs, Slack threads and examples you liked. Don't tidy it.
-3. **One chunk at a time.** Ask for one piece, review it, then move on.
-4. **Never accept a miss.** Every edit you make by hand is a rule you haven't
-   written. Say what you wanted, and ask it to save that as a rule.
-5. **Write rules that work.** Show it the target with an example, and say why.
-   A list of "don't"s says what's wrong, not what good looks like.
+Session 1 of [0G PC for Beginners](../). Everything you need to set up Claude
+Code on [0G Private Computer](https://pc.0g.ai) (PC) models and start your
+first project. The ideas behind it are in the
+[slides](https://slides.riches.im/2026-10-20%200G%20PC%20for%20Beginners%201/).
 
 ## Set up Claude Code on PC
 
@@ -99,10 +75,9 @@ EOF
 unset KEY
 ```
 
-This sends requests to PC with your key, uses `glm-5.3` as the main model and
-the cheap `0gm-1.0-35b-a3b` for background jobs, and starts in auto mode so
-you aren't asked to approve every step. Web search is off because it doesn't
-work through PC and can make results up.
+Claude Code now runs on `glm-5.3` and won't ask before every step (auto
+mode). Web search is off because it doesn't work through PC and makes up
+results.
 
 > [!WARNING]
 > Already use Claude Code with a Claude subscription? This switches it over to
