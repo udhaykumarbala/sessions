@@ -7,12 +7,12 @@ first project. The ideas behind it are in the
 
 ## Set up Claude Code on PC
 
-You need a Mac (on Windows, follow the
+You need a Mac or a Linux machine (on Windows, follow the
 [0G docs page](https://docs.0g.ai/developer-hub/building-on-0g/compute-network/router/clients/claude-code)
 instead) and a PC account with some balance. Sign in at
 [pc.0g.ai](https://pc.0g.ai) and deposit 0G.
 
-Open the Terminal app: press `⌘ Space`, type `Terminal`, press Enter.
+Open a terminal. On a Mac, press `⌘ Space`, type `Terminal`, press Enter.
 
 ### 1. Install Claude Code
 
@@ -20,7 +20,8 @@ Open the Terminal app: press `⌘ Space`, type `Terminal`, press Enter.
 curl -fsSL https://claude.ai/install.sh | bash
 ```
 
-If it says `~/.local/bin is not in your PATH`, run the line it gives you:
+If it says `~/.local/bin is not in your PATH`, run the line it prints. On a
+Mac it looks like this:
 
 ```sh
 echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
@@ -42,19 +43,21 @@ Run this, paste your key and press Enter. Nothing shows while you paste, so
 the key stays off your screen.
 
 ```sh
-read -rs "KEY?Paste your 0G API key, then press Enter: " && echo
+printf "Paste your 0G API key, then press Enter: "; read -rs KEY; echo
 ```
 
 Then pick where your settings go, and run that one line in the same window:
 
 | | Run |
 |---|---|
-| **Option 1:** new to Claude Code | `DIR=~/.claude` |
-| **Option 2:** already use Claude Code with a Claude subscription | `DIR=~/.claude-0g` |
+| **Option 1 (recommended):** a separate `claude-0g` command for PC | `DIR=~/.claude-0g` |
+| **Option 2:** make plain `claude` use PC | `DIR=~/.claude` |
 
-Option 2 leaves your subscription setup exactly as it is. You start PC
-sessions with `claude-0g` instead of `claude`, and each keeps its own settings
-and history.
+Option 1 keeps PC apart from plain `claude`, so a Claude subscription, now or
+later, keeps working alongside it. You start PC sessions with `claude-0g`, and
+each keeps its own settings and history. Option 2 switches `claude` itself
+over to PC, so don't pick it if you already use Claude Code with a
+subscription.
 
 Now paste this whole block in the same window. It writes your settings and
 keeps a backup of any you already had.
@@ -104,8 +107,8 @@ Claude Code now runs on `glm-5.3-flashx`, lists the PC models in `/model`, and
 won't ask before every step (auto mode). Web search is off because it doesn't
 work through PC and makes up results.
 
-**Option 2 only:** also paste this. It adds the `claude-0g` command and shares
-your personal rules (`~/.claude/CLAUDE.md`) between the two.
+**Option 1 only:** also paste this. It adds the `claude-0g` command and shares
+your personal rules (`~/.claude/CLAUDE.md`) with plain `claude`.
 
 ```sh
 mkdir -p ~/.local/bin
@@ -124,22 +127,24 @@ If `claude-0g` isn't found later, run the `PATH` line from step 1.
 ### 4. Make your workspace and start
 
 ```sh
-mkdir -p ~/AI && cd ~/AI && claude
+mkdir -p ~/projects && cd ~/projects
 ```
 
-With option 2, type `claude-0g` instead of `claude`, here and from now on.
+Then start Claude Code: type `claude-0g` if you chose option 1, or `claude` if
+you chose option 2. Use the same command from now on.
 
 The first time, pick a colour theme and confirm you trust the folder. Then say
 hi and ask which model it is. It should say GLM.
 
-Next time, open Terminal and run `cd ~/AI && claude` (or `claude-0g`).
+Next time, open a terminal and run `cd ~/projects && claude-0g` (or `claude`
+with option 2).
 
-`~/AI` is your workspace, with a folder per project inside it. Rules go in
+`~/projects` is your workspace, with a folder per project inside it. Rules go in
 plain text files called `CLAUDE.md`, which Claude Code reads every session:
 
 ```
 ~/.claude/CLAUDE.md      your rules, every session
-~/AI/
+~/projects/
 ├─ CLAUDE.md             map of your projects
 └─ team-intro/
    └─ CLAUDE.md          this project's rules
@@ -150,7 +155,7 @@ plain text files called `CLAUDE.md`, which Claude Code reads every session:
 Set up the map of your workspace:
 
 ```text
-This folder is my AI workspace. Each subfolder will be a separate project.
+This folder is my workspace. Each subfolder will be a separate project.
 Create a CLAUDE.md here that says so and keeps a one-line list of the
 projects. Update it whenever we add one.
 ```
@@ -205,10 +210,13 @@ call them for you through the PC API.
 |---|---|
 | `Esc` | Stop it mid-task |
 | `/clear` | Start fresh when you move to a new task |
-| `claude --continue` | Pick up your last conversation |
+| `claude-0g --continue` | Pick up your last conversation in this folder |
+| `claude-0g --resume` | Choose an older conversation to pick up |
 | `! command` | Run a terminal command yourself, inside Claude Code |
 | Drag a file in | Attach a PDF, doc or image |
 | `Shift Tab` | Change how much it asks before acting |
+
+With option 2, use `claude` instead of `claude-0g`.
 
 Your real spend is on [pc.0g.ai](https://pc.0g.ai). Claude Code doesn't know
 PC prices, so ignore the cost it shows.

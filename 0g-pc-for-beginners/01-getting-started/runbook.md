@@ -6,13 +6,13 @@ from scratch. The steps follow the [attendee guide](README.md).
 The demo runs in a sandbox shell whose `HOME` is `~/DemoHome`. Nothing from
 `~/.claude`, `~/.zshrc` or `~/.local/bin` is visible there, so `claude` is
 genuinely not installed and every path on screen (`~/.claude-0g/settings.json`,
-`~/AI`) matches what colleagues will type. Your real setup is untouched and
+`~/projects`) matches what colleagues will type. Your real setup is untouched and
 other sessions keep running.
 
-The demo follows the guide's option 2 and sets up a separate `claude-0g`
-command, the same shape as your own setup. Nothing uses plain `claude` in the
-sandbox, but the split is what most people with a Claude subscription will
-want.
+The demo follows the guide's recommended option 1 and sets up a separate
+`claude-0g` command, the same shape as your own setup. Nothing uses plain
+`claude` in the sandbox, but the split keeps it free for a Claude
+subscription.
 
 Two things don't carry into the sandbox: the macOS keychain (so the key lives
 in `settings.json`, the same as the 0G docs) and your `gh` login.
@@ -75,8 +75,8 @@ other.
 | 0 | `claude` → `command not found` | This is a Mac with nothing installed |
 | 1 | Copy the install line from the guide. Run the `PATH` line it prints, then `claude --version` | One command, no Node, no Homebrew |
 | 2 | Chrome: pc.0g.ai → Dashboard → API Keys → Create, with the fields above | One key, every model. Shown once, so copy it now |
-| 3 | Guide step 3: the `read` line, paste the key, `DIR=~/.claude-0g` (option 2), the settings block, then the option 2 block | Where to send requests, your key, which models, auto mode. Web search is off because PC can't do it and GLM will invent results. Option 2 keeps PC separate from a Claude subscription, which is how I run it. New to Claude Code? Option 1 is the same with plain `claude` |
-| 4 | `mkdir -p ~/AI && cd ~/AI && claude-0g`. Theme, trust. Ask `hi, which model are you?` Then open `/model` | It's GLM 5.3 FlashX on PC, not Claude. Nine PC models, one key |
+| 3 | Guide step 3: the `read` line, paste the key, `DIR=~/.claude-0g` (option 1), the settings block, then the option 1 block | Where to send requests, your key, which models, auto mode. Web search is off because PC can't do it and GLM will invent results. Option 1 keeps PC separate from a Claude subscription, which is how I run it. Option 2 is the same with plain `claude` |
+| 4 | `mkdir -p ~/projects && cd ~/projects`, then `claude-0g`. Theme, trust. Ask `hi, which model are you?` Then open `/model` | It's GLM 5.3 FlashX on PC, not Claude. Nine PC models, one key |
 | 5 | First prompt from the guide: the workspace `CLAUDE.md`. Show the file | This is the master session. It knows the map |
 | 6 | Second prompt: `team-intro`. Paste a real bio, lots of it | Give it everything: dump context. It opens in Chrome when done |
 | 7 | Find something you don't like in the page. Say what you want instead and ask it to save a rule. Show the rule | Never accept a miss. Check it wrote an example, not a "don't" |
