@@ -94,12 +94,12 @@ other.
 | 2 | Chrome: pc.0g.ai → Dashboard → API Keys → Create, with the fields above | One key, every model. Shown once, so copy it now |
 | 3 | Guide step 3, block by block: the key, the folders, the settings, the `claude-0g` command, the rules link. Read out the "what each part does" list after the settings | Where to send requests, your key, which models, auto mode. Web search is off because PC can't do it and GLM will invent results. `claude-0g` sits alongside plain `claude`, which stays free for a Claude subscription. That's how I run it |
 | 4 | `mkdir -p ~/projects && cd ~/projects && claude-0g`. Theme, trust. Ask `hi, which model are you?` Then open `/model` | It's GLM 5.3 FlashX on PC, not Claude. Nine PC models, one key |
+| 4b | Optional: guide step 5, the balance status line. Create the management key with the fields above, `/exit`, run the key line, back in `claude-0g`, paste the prompt | Claude Code changing its own setup. Look how much context the prompt gives it. The API key can't read the balance (403), hence the management key |
 | 5 | First prompt from the guide: the workspace `CLAUDE.md`. Show the file | This is the master session. It knows the map |
 | 6 | Second prompt: `team-intro`. Paste a real bio, lots of it | Give it everything: dump context. It opens in Chrome when done |
 | 7 | Find something you don't like in the page. Say what you want instead and ask it to save a rule. Show the rule | Never accept a miss. Check it wrote an example, not a "don't" |
 | 8 | Optional: `Put the team-intro project on GitHub as a private repo`. Sign in with `! gh auth login` | Starts local, goes to GitHub when it's worth keeping |
-| 8b | Optional: guide step 7, the balance status line. Create the management key with the fields above, `/exit`, run the key line, back in `claude-0g`, paste the prompt | Claude Code changing its own setup. Look how much context the prompt gives it. The API key can't read the balance (403), hence the management key |
-| 8c | `/effort max` on a tricky question, then `/effort low` | The second lever after the model: more thinking, slower, more tokens, fewer mistakes |
+| 8b | `/effort max` on a tricky question, then `/effort low` | The second lever after the model: more thinking, slower, more tokens, fewer mistakes |
 | 9 | Switch to your own setup: `~/Repos` and its `CLAUDE.md` map, `dotfiles` and `install.sh`, `claude-0g` | Same shape, grown over time |
 
 The status line prompt hasn't been run through PC, because it's interactive

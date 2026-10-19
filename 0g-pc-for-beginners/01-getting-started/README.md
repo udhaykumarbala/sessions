@@ -158,7 +158,40 @@ plain text files called `CLAUDE.md`, which Claude Code reads every session:
    └─ CLAUDE.md          this project's rules
 ```
 
-### 5. Your first three prompts
+### 5. Show your PC balance in the status line (optional)
+
+Here you get Claude Code to change its own setup. Reading your balance needs a
+separate management key, because API keys can't see it. On
+[pc.0g.ai](https://pc.0g.ai), go to **Settings → Management Keys → Create**,
+pick **Custom** and tick only `account:read`. Name it like
+`claude-code-balance`.
+
+Leave Claude Code with `/exit`, then run this and paste the key. It's saved
+where only you can read it.
+
+```sh
+printf "Paste your 0G management key, then press Enter: "; read -rs MK; echo; mkdir -p ~/.config/0g && (umask 077; printf '%s\n' "$MK" > ~/.config/0g/mk); unset MK
+```
+
+Then start `claude-0g` again and give it this:
+
+```text
+Set up your status line to show the current folder, the model, a context
+usage bar and my 0G PC balance, like this:
+
+~/projects | 0G: GLM 5.3 FlashX | ━━━━━━──────────────── 28% | $12.34
+
+Here's how status lines work: https://code.claude.com/docs/en/statusline. My
+settings are in ~/.claude-0g/settings.json. Get the balance from
+https://router-api.0g.ai/v1/account/balance using the key in ~/.config/0g/mk
+as a Bearer token, and never print the key. total_balance is in
+micro-dollars, and refresh it in the background at most once a minute.
+```
+
+It will ask before changing its own settings. Say yes, and the new status line
+shows up below the prompt.
+
+### 6. Your first three prompts
 
 Set up the map of your workspace:
 
@@ -184,7 +217,7 @@ When it gets something wrong, fix it for good:
 ~/.claude/CLAUDE.md with a short example.
 ```
 
-### 6. Put a project on GitHub (optional)
+### 7. Put a project on GitHub (optional)
 
 When a project is worth keeping or sharing:
 
@@ -194,36 +227,6 @@ Put the team-intro project on GitHub as a private repo.
 
 The first time, it will help you install the GitHub CLI and ask you to sign
 in. Run the sign-in yourself by typing `! gh auth login` in Claude Code.
-
-### 7. Show your PC balance in the status line (optional)
-
-Here you get Claude Code to change its own setup. Reading your balance needs a
-separate management key, because API keys can't see it. On
-[pc.0g.ai](https://pc.0g.ai), go to **Settings → Management Keys → Create**,
-pick **Custom** and tick only `account:read`. Name it like
-`claude-code-balance`.
-
-Back in your terminal (outside Claude Code), run this and paste the key. It's
-saved where only you can read it.
-
-```sh
-printf "Paste your 0G management key, then press Enter: "; read -rs MK; echo; mkdir -p ~/.config/0g && (umask 077; printf '%s\n' "$MK" > ~/.config/0g/mk); unset MK
-```
-
-Then start Claude Code and give it this:
-
-```text
-Show my 0G PC balance in your status line, next to the model name. Here's how
-status lines work: https://code.claude.com/docs/en/statusline. My settings are
-in ~/.claude-0g/settings.json. Get the balance from
-https://router-api.0g.ai/v1/account/balance using the key in ~/.config/0g/mk
-as a Bearer token, and never print the key. total_balance is in
-micro-dollars, so show it like $12.34, and refresh it in the background at
-most once a minute.
-```
-
-It will ask before changing its own settings. Say yes, and the balance shows
-up below the prompt.
 
 ## Models and effort
 
