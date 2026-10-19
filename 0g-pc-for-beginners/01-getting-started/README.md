@@ -46,26 +46,15 @@ the key stays off your screen.
 printf "Paste your 0G API key, then press Enter: "; read -rs KEY; echo
 ```
 
-Then pick where your settings go, and run that one line in the same window:
-
-| | Run |
-|---|---|
-| **Option 1 (recommended):** a separate `claude-0g` command for PC | `DIR=~/.claude-0g` |
-| **Option 2:** make plain `claude` use PC | `DIR=~/.claude` |
-
-Option 1 keeps PC apart from plain `claude`, so a Claude subscription, now or
-later, keeps working alongside it. You start PC sessions with `claude-0g`, and
-each keeps its own settings and history. Option 2 switches `claude` itself
-over to PC, so don't pick it if you already use Claude Code with a
-subscription.
-
-Now paste this whole block in the same window. It writes your settings and
-keeps a backup of any you already had.
+Then paste this whole block in the same window. It adds a `claude-0g` command
+that runs Claude Code on PC, with its own settings and history in
+`~/.claude-0g`. Plain `claude` stays as it is, so a Claude subscription, now
+or later, keeps working alongside it.
 
 ```sh
-mkdir -p "$DIR"
-[ -f "$DIR/settings.json" ] && cp "$DIR/settings.json" "$DIR/settings.bak"
-cat > "$DIR/settings.json" <<EOF
+mkdir -p ~/.claude-0g ~/.claude ~/.local/bin
+[ -f ~/.claude-0g/settings.json ] && cp ~/.claude-0g/settings.json ~/.claude-0g/settings.bak
+cat > ~/.claude-0g/settings.json <<EOF
 {
   "env": {
     "ANTHROPIC_BASE_URL": "https://router-api.0g.ai",
@@ -101,17 +90,6 @@ cat > "$DIR/settings.json" <<EOF
 }
 EOF
 unset KEY
-```
-
-Claude Code now runs on `glm-5.3-flashx`, lists the PC models in `/model`, and
-won't ask before every step (auto mode). Web search is off because it doesn't
-work through PC and makes up results.
-
-**Option 1 only:** also paste this. It adds the `claude-0g` command and shares
-your personal rules (`~/.claude/CLAUDE.md`) with plain `claude`.
-
-```sh
-mkdir -p ~/.local/bin
 cat > ~/.local/bin/claude-0g <<'EOF'
 #!/bin/sh
 # Claude Code on 0G PC, with its own settings and history in ~/.claude-0g
@@ -119,25 +97,26 @@ export CLAUDE_CONFIG_DIR="$HOME/.claude-0g"
 exec claude "$@"
 EOF
 chmod +x ~/.local/bin/claude-0g
-mkdir -p ~/.claude && touch ~/.claude/CLAUDE.md && ln -sf ~/.claude/CLAUDE.md ~/.claude-0g/CLAUDE.md
+touch ~/.claude/CLAUDE.md && ln -sf ~/.claude/CLAUDE.md ~/.claude-0g/CLAUDE.md
 ```
+
+`claude-0g` now runs on `glm-5.3-flashx`, lists the PC models in `/model`, and
+won't ask before every step (auto mode). Web search is off because it doesn't
+work through PC and makes up results. Your personal rules
+(`~/.claude/CLAUDE.md`) are shared with plain `claude`.
 
 If `claude-0g` isn't found later, run the `PATH` line from step 1.
 
 ### 4. Make your workspace and start
 
 ```sh
-mkdir -p ~/projects && cd ~/projects
+mkdir -p ~/projects && cd ~/projects && claude-0g
 ```
-
-Then start Claude Code: type `claude-0g` if you chose option 1, or `claude` if
-you chose option 2. Use the same command from now on.
 
 The first time, pick a colour theme and confirm you trust the folder. Then say
 hi and ask which model it is. It should say GLM.
 
-Next time, open a terminal and run `cd ~/projects && claude-0g` (or `claude`
-with option 2).
+Next time, open a terminal and run `cd ~/projects && claude-0g`.
 
 `~/projects` is your workspace, with a folder per project inside it. Rules go in
 plain text files called `CLAUDE.md`, which Claude Code reads every session:
@@ -176,9 +155,6 @@ When it gets something wrong, fix it for good:
 ~/.claude/CLAUDE.md with a short example.
 ```
 
-That path works with `claude-0g` too, because option 1 links its rules to the
-same file.
-
 ### 6. Put a project on GitHub (optional)
 
 When a project is worth keeping or sharing:
@@ -210,11 +186,11 @@ Then start Claude Code and give it this:
 ```text
 Show my 0G PC balance in your status line, next to the model name. Here's how
 status lines work: https://code.claude.com/docs/en/statusline. My settings are
-in $CLAUDE_CONFIG_DIR/settings.json, or ~/.claude/settings.json if that isn't
-set. Get the balance from https://router-api.0g.ai/v1/account/balance using
-the key in ~/.config/0g/mk as a Bearer token, and never print the key.
-total_balance is in micro-dollars, so show it like $12.34, and refresh it in
-the background at most once a minute.
+in ~/.claude-0g/settings.json. Get the balance from
+https://router-api.0g.ai/v1/account/balance using the key in ~/.config/0g/mk
+as a Bearer token, and never print the key. total_balance is in
+micro-dollars, so show it like $12.34, and refresh it in the background at
+most once a minute.
 ```
 
 It will ask before changing its own settings. Say yes, and the balance shows
@@ -256,8 +232,6 @@ call them for you through the PC API.
 | `! command` | Run a terminal command yourself, inside Claude Code |
 | Drag a file in | Attach a PDF, doc or image |
 | `Shift Tab` | Change how much it asks before acting |
-
-With option 2, use `claude` instead of `claude-0g`.
 
 Your real spend is on [pc.0g.ai](https://pc.0g.ai). Claude Code doesn't know
 PC prices, so ignore the cost it shows.
