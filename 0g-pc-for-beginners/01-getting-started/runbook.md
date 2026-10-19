@@ -47,10 +47,12 @@ For a rehearsal, swap in that day's date.
 
 3. Rehearse steps 1 to 5 below against the attendee guide, with a throwaway key. The
    install and a headless call through PC were tested in the same kind of
-   sandbox and both worked (`glm-5.3` answered in 12s). The interactive
-   first-run screens weren't tested, so watch for what appears between
-   `claude` and the prompt: theme picker, folder trust, maybe an auto mode
-   notice about classifier billing through `router-api.0g.ai` (harmless).
+   sandbox and both worked, and the guide's settings block loads without
+   warnings with `glm-5.3-flashx` as the default. The interactive first-run
+   screens weren't tested, so watch for what appears between `claude` and the
+   prompt: theme picker, folder trust, maybe an auto mode notice about
+   classifier billing through `router-api.0g.ai` (harmless). Also open
+   `/model` and check the nine PC models are listed.
 4. Reset: `rm -rf ~/DemoHome`, then repeat 1 and 2. Delete the rehearsal key
    on pc.0g.ai.
 5. Push this repo and the deck. The deck's QR code points at this session's
@@ -69,7 +71,7 @@ other.
 | 1 | Copy the install line from the guide. Run the `PATH` line it prints, then `claude --version` | One command, no Node, no Homebrew |
 | 2 | Chrome: pc.0g.ai → Dashboard → API Keys → Create, with the fields above | One key, every model. Shown once, so copy it now |
 | 3 | Guide step 3: the `read` line, paste the key, then the settings block | Where to send requests, your key, which models, auto mode. Web search is off because PC can't do it and GLM will invent results |
-| 4 | `mkdir -p ~/AI && cd ~/AI && claude`. Theme, trust. Ask `hi, which model are you?` | It's GLM 5.3 on PC, not Claude |
+| 4 | `mkdir -p ~/AI && cd ~/AI && claude`. Theme, trust. Ask `hi, which model are you?` Then open `/model` | It's GLM 5.3 FlashX on PC, not Claude. Nine PC models, one key |
 | 5 | First prompt from the guide: the workspace `CLAUDE.md`. Show the file | This is the master session. It knows the map |
 | 6 | Second prompt: `team-intro`. Paste a real bio, lots of it | Give it everything: dump context. It opens in Chrome when done |
 | 7 | Find something you don't like in the page. Say what you want instead and ask it to save a rule. Show the rule | Never accept a miss. Check it wrote an example, not a "don't" |
@@ -105,15 +107,17 @@ what it builds against that. Not run through PC yet, so rehearse it.
 Things to avoid on screen:
 
 - Don't `cat ~/.claude/settings.json`. The key is in it.
-- Don't paste a screenshot into GLM. It fails with
-  `API Error: 400 Model only supports text input`. To show images, run
-  `/model mimo-v2.6-pro` first (tested, it reads images fine).
+- Don't paste a screenshot after switching to a text-only model (`glm-5.3`,
+  the DeepSeeks, Hunyuan). It fails with
+  `API Error: 400 Model only supports text input`. The default,
+  `glm-5.3-flashx`, reads images fine.
 - Ignore the cost Claude Code shows. It doesn't know PC prices. A one-line
   hello showed $0.09.
 
 If things go wrong:
 
-- Slow replies: `/model glm-5.3-flash`.
+- Slow replies: keep the ask small. FlashX was among the fastest models
+  tested, so switching rarely helps.
 - GitHub sign-in drags: skip step 8 and show a push from your own setup.
   Without the keychain, `gh` stores its token in plain text under
   `~/DemoHome/.config/gh`, which teardown deletes.

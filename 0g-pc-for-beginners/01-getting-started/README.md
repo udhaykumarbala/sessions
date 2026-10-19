@@ -57,7 +57,7 @@ cat > ~/.claude/settings.json <<EOF
     "ANTHROPIC_BASE_URL": "https://router-api.0g.ai",
     "ANTHROPIC_AUTH_TOKEN": "$KEY",
     "ANTHROPIC_API_KEY": "",
-    "ANTHROPIC_MODEL": "glm-5.3",
+    "ANTHROPIC_MODEL": "glm-5.3-flashx",
     "ANTHROPIC_DEFAULT_FABLE_MODEL": "glm-5.3",
     "ANTHROPIC_DEFAULT_OPUS_MODEL": "glm-5.3",
     "ANTHROPIC_DEFAULT_HAIKU_MODEL": "0gm-1.0-35b-a3b",
@@ -65,6 +65,20 @@ cat > ~/.claude/settings.json <<EOF
   },
   "modelOverrides": {
     "claude-sonnet-5": "0gm-1.0-35b-a3b"
+  },
+  "modelPicker": {
+    "replaceBuiltInOptions": true,
+    "options": [
+      { "model": "glm-5.3-flashx", "label": "GLM 5.3 FlashX (default)", "description": "1M context, $0.39/$1.31 per M, sees images" },
+      { "model": "glm-5.3", "label": "GLM 5.3", "description": "1.2M context, $1.40/$4.40 per M, text only" },
+      { "model": "deepseek-v4-flash", "label": "DeepSeek V4 Flash", "description": "1.4M context, $0.26/$0.79 per M, text only" },
+      { "model": "glm-5.3-flash", "label": "GLM 5.3 Flash", "description": "1.2M context, $0.14/$0.50 per M, text only" },
+      { "model": "mimo-v2.6-flash", "label": "MiMo V2.6 Flash", "description": "1M context, $0.21/$0.42 per M, sees images" },
+      { "model": "mimo-v2.6-pro", "label": "MiMo V2.6 Pro", "description": "1M context, $0.63/$1.25 per M, sees images" },
+      { "model": "deepseek-v4-pro", "label": "DeepSeek V4 Pro", "description": "1.4M context, $0.79/$2.38 per M, text only" },
+      { "model": "hy4-preview", "label": "Hunyuan 4 Preview", "description": "1M context, $1.25/$3.75 per M, text only" },
+      { "model": "step-5-preview", "label": "Step 5 Preview", "description": "1M context, $1.46/$4.17 per M, sees images" }
+    ]
   },
   "permissions": {
     "defaultMode": "auto",
@@ -75,9 +89,9 @@ EOF
 unset KEY
 ```
 
-Claude Code now runs on `glm-5.3` and won't ask before every step (auto
-mode). Web search is off because it doesn't work through PC and makes up
-results.
+Claude Code now runs on `glm-5.3-flashx`, lists the PC models in `/model`, and
+won't ask before every step (auto mode). Web search is off because it doesn't
+work through PC and makes up results.
 
 > [!WARNING]
 > Already use Claude Code with a Claude subscription? This switches it over to
@@ -144,22 +158,20 @@ in. Run the sign-in yourself by typing `! gh auth login` in Claude Code.
 
 ## Models
 
-Switch any time with `/model` followed by the name, e.g.
-`/model glm-5.3-flash`.
+Type `/model` to pick from the nine PC models in your menu. Start with these:
 
 | Model | Use it for | Context | Images in | $ per M tokens, in / out |
 |-------|------------|---------|-----------|--------------------------|
-| `glm-5.3` | Default for most work | 1.2M | No | 1.40 / 4.40 |
-| `glm-5.3-flash` | Quick, simple jobs | 1.2M | No | 0.14 / 0.50 |
-| `deepseek-v4-pro` | A second opinion on hard problems | 1.4M | No | 0.79 / 2.38 |
-| `mimo-v2.6-pro` | Screenshots and images | 1M | Yes | 0.63 / 1.25 |
+| `glm-5.3-flashx` | Default for everything, screenshots included | 1M | Yes | 0.39 / 1.31 |
+| `glm-5.3` | Long, hard jobs | 1.2M | No | 1.40 / 4.40 |
+| `deepseek-v4-flash` | The cheapest that's still reliable | 1.4M | No | 0.26 / 0.79 |
 
-The GLM and DeepSeek models can't see images. Pasting a screenshot into one
-fails with `Model only supports text input`, so switch to `mimo-v2.6-pro`
-first.
+A text-only model can't see screenshots. Pasting one in fails with
+`Model only supports text input`, so switch back to `glm-5.3-flashx` first.
 
-Image and video models can't run Claude Code, but Claude Code can call them
-for you through the PC API.
+Claude models are on PC too, at 5 to 15 times the price, so they're left out
+of the menu. Image and video models can't run Claude Code, but Claude Code can
+call them for you through the PC API.
 
 ## Everyday basics
 
