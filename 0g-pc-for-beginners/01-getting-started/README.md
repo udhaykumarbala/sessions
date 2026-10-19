@@ -39,21 +39,29 @@ Copy the key. It starts with `sk-` and is only shown once.
 
 ### 3. Point Claude Code at PC
 
-Run this, paste your key and press Enter. Nothing shows while you paste, so
-the key stays off your screen.
+This sets up a `claude-0g` command that runs Claude Code on PC, with its own
+settings and history. Plain `claude` stays as it is, so a Claude subscription,
+now or later, keeps working alongside it. Run the blocks below in order, all
+in the same terminal window.
+
+**Your key.** Run this, paste your key and press Enter. Nothing shows while
+you paste, so the key stays off your screen.
 
 ```sh
 printf "Paste your 0G API key, then press Enter: "; read -rs KEY; echo
 ```
 
-Then paste this whole block in the same window. It adds a `claude-0g` command
-that runs Claude Code on PC, with its own settings and history in
-`~/.claude-0g`. Plain `claude` stays as it is, so a Claude subscription, now
-or later, keeps working alongside it.
+**The folders.** `~/.claude-0g` holds `claude-0g`'s settings and history.
+`~/.claude` is plain Claude Code's folder, where your personal rules live.
+`~/.local/bin` is where commands you add go.
 
 ```sh
 mkdir -p ~/.claude-0g ~/.claude ~/.local/bin
-[ -f ~/.claude-0g/settings.json ] && cp ~/.claude-0g/settings.json ~/.claude-0g/settings.bak
+```
+
+**The settings.** This writes `~/.claude-0g/settings.json` with your key in it.
+
+```sh
 cat > ~/.claude-0g/settings.json <<EOF
 {
   "env": {
@@ -90,6 +98,26 @@ cat > ~/.claude-0g/settings.json <<EOF
 }
 EOF
 unset KEY
+```
+
+What each part does:
+
+- `env` sends requests to the PC router with your key. It sets the default
+  model (`glm-5.3-flashx`), the models behind Claude Code's built-in slots
+  (`glm-5.3`, and the cheap `0gm-1.0-35b-a3b` for background jobs), and the
+  models' real context size.
+- `modelOverrides` sets the model auto mode uses to check each step before it
+  runs. The cheap `0gm-1.0-35b-a3b` is plenty for that.
+- `modelPicker` lists the nine PC models in `/model`, with their prices and
+  whether they can see images.
+- `permissions` turns on auto mode, so it doesn't ask before every step, and
+  turns off web search, which doesn't work through PC and makes up results.
+
+**The command.** `claude-0g` is a tiny script that runs Claude Code with its
+settings folder pointed at `~/.claude-0g`. That's the whole trick: plain
+`claude` still uses `~/.claude`.
+
+```sh
 cat > ~/.local/bin/claude-0g <<'EOF'
 #!/bin/sh
 # Claude Code on 0G PC, with its own settings and history in ~/.claude-0g
@@ -97,13 +125,14 @@ export CLAUDE_CONFIG_DIR="$HOME/.claude-0g"
 exec claude "$@"
 EOF
 chmod +x ~/.local/bin/claude-0g
-touch ~/.claude/CLAUDE.md && ln -sf ~/.claude/CLAUDE.md ~/.claude-0g/CLAUDE.md
 ```
 
-`claude-0g` now runs on `glm-5.3-flashx`, lists the PC models in `/model`, and
-won't ask before every step (auto mode). Web search is off because it doesn't
-work through PC and makes up results. Your personal rules
-(`~/.claude/CLAUDE.md`) are shared with plain `claude`.
+**Your personal rules.** Your rules live in `~/.claude/CLAUDE.md`. This links
+`claude-0g` to the same file, so a rule you add in one works in both.
+
+```sh
+touch ~/.claude/CLAUDE.md && ln -sf ~/.claude/CLAUDE.md ~/.claude-0g/CLAUDE.md
+```
 
 If `claude-0g` isn't found later, run the `PATH` line from step 1.
 

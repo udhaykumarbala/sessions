@@ -74,7 +74,7 @@ other.
 | 0 | `claude` → `command not found` | This is a Mac with nothing installed |
 | 1 | Copy the install line from the guide. Run the `PATH` line it prints, then `claude --version` | One command, no Node, no Homebrew |
 | 2 | Chrome: pc.0g.ai → Dashboard → API Keys → Create, with the fields above | One key, every model. Shown once, so copy it now |
-| 3 | Guide step 3: the `read` line, paste the key, then the setup block | Where to send requests, your key, which models, auto mode. Web search is off because PC can't do it and GLM will invent results. `claude-0g` sits alongside plain `claude`, which stays free for a Claude subscription. That's how I run it |
+| 3 | Guide step 3, block by block: the key, the folders, the settings, the `claude-0g` command, the rules link. Read out the "what each part does" list after the settings | Where to send requests, your key, which models, auto mode. Web search is off because PC can't do it and GLM will invent results. `claude-0g` sits alongside plain `claude`, which stays free for a Claude subscription. That's how I run it |
 | 4 | `mkdir -p ~/projects && cd ~/projects && claude-0g`. Theme, trust. Ask `hi, which model are you?` Then open `/model` | It's GLM 5.3 FlashX on PC, not Claude. Nine PC models, one key |
 | 5 | First prompt from the guide: the workspace `CLAUDE.md`. Show the file | This is the master session. It knows the map |
 | 6 | Second prompt: `team-intro`. Paste a real bio, lots of it | Give it everything: dump context. It opens in Chrome when done |
