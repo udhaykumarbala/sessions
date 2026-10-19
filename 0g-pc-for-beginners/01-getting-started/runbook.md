@@ -67,7 +67,7 @@ For a rehearsal, swap in that day's date.
    git config --global user.email wriches@gmail.com
    ```
 
-3. Rehearse steps 1 to 5 below against the attendee guide, with a throwaway key. The
+3. Rehearse the attendee guide's steps 1 to 6, with a throwaway key. The
    install and a headless call through PC were tested in the same kind of
    sandbox and both worked, and the guide's settings block loads without
    warnings with `glm-5.3-flashx` as the default. The interactive first-run
@@ -79,7 +79,7 @@ For a rehearsal, swap in that day's date.
    on pc.0g.ai.
 5. Push this repo and the deck. The deck's QR code points at this session's
    folder.
-6. Check everyone has a PC account with balance before the session, or step 2
+6. Check everyone has a PC account with balance before the session, or guide step 2
    stalls for half the room.
 
 ## Live (about 25 min)
@@ -87,25 +87,24 @@ For a rehearsal, swap in that day's date.
 Screen: the sandbox Terminal on one side, Chrome on the attendee guide on the
 other.
 
-| # | Do | Say |
-|---|----|-----|
-| 0 | `claude` → `command not found` | This is a Mac with nothing installed |
-| 1 | Copy the install line from the guide. Run the `PATH` line it prints, then `claude --version` | One command, no Node, no Homebrew |
-| 2 | Chrome: pc.0g.ai → Dashboard → API Keys → Create, with the fields above | One key, every model. Shown once, so copy it now |
-| 3 | Guide step 3, block by block: the key, the folders, the settings, the `claude-0g` command, the rules link. Read out the "what each part does" list after the settings | Where to send requests, your key, which models, auto mode. Web search is off because PC can't do it and GLM will invent results. `claude-0g` sits alongside plain `claude`, which stays free for a Claude subscription. That's how I run it |
-| 4 | `mkdir -p ~/projects && cd ~/projects && claude-0g`. Theme, trust. Ask `hi, which model are you?` Then open `/model` | It's GLM 5.3 FlashX on PC, not Claude. Nine PC models, one key |
-| 4b | Optional: guide step 5, the balance status line. Create the management key with the fields above, `/exit`, run the key line, back in `claude-0g`, paste the prompt | Claude Code changing its own setup. Look how much context the prompt gives it. The API key can't read the balance (403), hence the management key |
-| 5 | First prompt from the guide: the workspace `CLAUDE.md`. Show the file | This is the master session. It knows the map |
-| 6 | Second prompt: `team-intro`. Paste a real bio, lots of it | Give it everything: dump context. It opens in Chrome when done |
-| 7 | Find something you don't like in the page. Say what you want instead and ask it to save a rule. Show the rule | Never accept a miss. Check it wrote an example, not a "don't" |
-| 8 | Optional: `Put the team-intro project on GitHub as a private repo`. Sign in with `! gh auth login` | Starts local, goes to GitHub when it's worth keeping |
-| 8b | `/effort max` on a tricky question, then `/effort low` | The second lever after the model: more thinking, slower, more tokens, fewer mistakes |
-| 9 | Switch to your own setup: `~/Repos` and its `CLAUDE.md` map, `dotfiles` and `install.sh`, `claude-0g` | Same shape, grown over time |
-
-The status line prompt hasn't been run through PC, because it's interactive
-and edits settings outside the working folder. Rehearse it tonight, and check
-the result against your `dotfiles` status line, which uses the same endpoint
-and maths. Expect a permission prompt when it edits `~/.claude-0g/settings.json`.
+1. Open with `claude` → `command not found`. This is a Mac with nothing
+   installed.
+2. Work through the attendee guide, steps 1 to 7, copying each block from it.
+   Use the key fields above in steps 2 and 5. Worth saying along the way:
+   - Step 3: read out the "what each part does" list. `claude-0g` sits
+     alongside plain `claude`, which is how you run it.
+   - Step 4: ask which model it is, then open `/model`. GLM 5.3 FlashX on PC,
+     not Claude, and nine models on one key.
+   - Step 5: Claude Code changing its own setup, and how much context the
+     prompt gives it. Expect a permission prompt when it edits
+     `~/.claude-0g/settings.json`.
+   - Step 6: paste a real bio, lots of it. When it gets something wrong,
+     check the rule it saves is an example, not a "don't".
+3. Show the second lever: `/effort max` on a tricky question, then
+   `/effort low`. More thinking is slower and costs more tokens, but makes
+   fewer mistakes.
+4. Switch to your own setup: `~/Repos` and its `CLAUDE.md` map, `dotfiles` and
+   `install.sh`, `claude-0g`. Same shape, grown over time.
 
 Things to avoid on screen:
 
@@ -121,7 +120,7 @@ If things go wrong:
 
 - Slow replies: keep the ask small. FlashX was among the fastest models
   tested, so switching rarely helps.
-- GitHub sign-in drags: skip step 8 and show a push from your own setup.
+- GitHub sign-in drags: skip guide step 7 and show a push from your own setup.
   Without the keychain, `gh` stores its token in plain text under
   `~/DemoHome/.config/gh`, which teardown deletes.
 
@@ -131,5 +130,5 @@ If things go wrong:
   `demo-ai-session-2026-10-20-balance` management key. Both were on screen
   when created.
 - `rm -rf ~/DemoHome`
-- If you did step 8: `gh repo delete wriches/team-intro` from your normal
+- If you did guide step 7: `gh repo delete wriches/team-intro` from your normal
   shell.
