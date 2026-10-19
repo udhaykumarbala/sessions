@@ -45,13 +45,24 @@ the key stays off your screen.
 read -rs "KEY?Paste your 0G API key, then press Enter: " && echo
 ```
 
-Then paste this whole block in the same window. It writes your settings and
+Then pick where your settings go, and run that one line in the same window:
+
+| | Run |
+|---|---|
+| **Option 1:** new to Claude Code | `DIR=~/.claude` |
+| **Option 2:** already use Claude Code with a Claude subscription | `DIR=~/.claude-0g` |
+
+Option 2 leaves your subscription setup exactly as it is. You start PC
+sessions with `claude-0g` instead of `claude`, and each keeps its own settings
+and history.
+
+Now paste this whole block in the same window. It writes your settings and
 keeps a backup of any you already had.
 
 ```sh
-mkdir -p ~/.claude
-[ -f ~/.claude/settings.json ] && cp ~/.claude/settings.json ~/.claude/settings.bak
-cat > ~/.claude/settings.json <<EOF
+mkdir -p "$DIR"
+[ -f "$DIR/settings.json" ] && cp "$DIR/settings.json" "$DIR/settings.bak"
+cat > "$DIR/settings.json" <<EOF
 {
   "env": {
     "ANTHROPIC_BASE_URL": "https://router-api.0g.ai",
@@ -93,9 +104,22 @@ Claude Code now runs on `glm-5.3-flashx`, lists the PC models in `/model`, and
 won't ask before every step (auto mode). Web search is off because it doesn't
 work through PC and makes up results.
 
-> [!WARNING]
-> Already use Claude Code with a Claude subscription? This switches it over to
-> PC. Ask Will about running both side by side instead.
+**Option 2 only:** also paste this. It adds the `claude-0g` command and shares
+your personal rules (`~/.claude/CLAUDE.md`) between the two.
+
+```sh
+mkdir -p ~/.local/bin
+cat > ~/.local/bin/claude-0g <<'EOF'
+#!/bin/sh
+# Claude Code on 0G PC, with its own settings and history in ~/.claude-0g
+export CLAUDE_CONFIG_DIR="$HOME/.claude-0g"
+exec claude "$@"
+EOF
+chmod +x ~/.local/bin/claude-0g
+mkdir -p ~/.claude && touch ~/.claude/CLAUDE.md && ln -sf ~/.claude/CLAUDE.md ~/.claude-0g/CLAUDE.md
+```
+
+If `claude-0g` isn't found later, run the `PATH` line from step 1.
 
 ### 4. Make your workspace and start
 
@@ -103,10 +127,12 @@ work through PC and makes up results.
 mkdir -p ~/AI && cd ~/AI && claude
 ```
 
+With option 2, type `claude-0g` instead of `claude`, here and from now on.
+
 The first time, pick a colour theme and confirm you trust the folder. Then say
 hi and ask which model it is. It should say GLM.
 
-Next time, open Terminal and run `cd ~/AI && claude`.
+Next time, open Terminal and run `cd ~/AI && claude` (or `claude-0g`).
 
 `~/AI` is your workspace, with a folder per project inside it. Rules go in
 plain text files called `CLAUDE.md`, which Claude Code reads every session:

@@ -5,9 +5,14 @@ from scratch. The steps follow the [attendee guide](README.md).
 
 The demo runs in a sandbox shell whose `HOME` is `~/DemoHome`. Nothing from
 `~/.claude`, `~/.zshrc` or `~/.local/bin` is visible there, so `claude` is
-genuinely not installed and every path on screen (`~/.claude/settings.json`,
+genuinely not installed and every path on screen (`~/.claude-0g/settings.json`,
 `~/AI`) matches what colleagues will type. Your real setup is untouched and
 other sessions keep running.
+
+The demo follows the guide's option 2 and sets up a separate `claude-0g`
+command, the same shape as your own setup. Nothing uses plain `claude` in the
+sandbox, but the split is what most people with a Claude subscription will
+want.
 
 Two things don't carry into the sandbox: the macOS keychain (so the key lives
 in `settings.json`, the same as the 0G docs) and your `gh` login.
@@ -49,8 +54,8 @@ For a rehearsal, swap in that day's date.
    install and a headless call through PC were tested in the same kind of
    sandbox and both worked, and the guide's settings block loads without
    warnings with `glm-5.3-flashx` as the default. The interactive first-run
-   screens weren't tested, so watch for what appears between `claude` and the
-   prompt: theme picker, folder trust, maybe an auto mode notice about
+   screens weren't tested, so watch for what appears between `claude-0g` and
+   the prompt: theme picker, folder trust, maybe an auto mode notice about
    classifier billing through `router-api.0g.ai` (harmless). Also open
    `/model` and check the nine PC models are listed.
 4. Reset: `rm -rf ~/DemoHome`, then repeat 1 and 2. Delete the rehearsal key
@@ -70,8 +75,8 @@ other.
 | 0 | `claude` → `command not found` | This is a Mac with nothing installed |
 | 1 | Copy the install line from the guide. Run the `PATH` line it prints, then `claude --version` | One command, no Node, no Homebrew |
 | 2 | Chrome: pc.0g.ai → Dashboard → API Keys → Create, with the fields above | One key, every model. Shown once, so copy it now |
-| 3 | Guide step 3: the `read` line, paste the key, then the settings block | Where to send requests, your key, which models, auto mode. Web search is off because PC can't do it and GLM will invent results |
-| 4 | `mkdir -p ~/AI && cd ~/AI && claude`. Theme, trust. Ask `hi, which model are you?` Then open `/model` | It's GLM 5.3 FlashX on PC, not Claude. Nine PC models, one key |
+| 3 | Guide step 3: the `read` line, paste the key, `DIR=~/.claude-0g` (option 2), the settings block, then the option 2 block | Where to send requests, your key, which models, auto mode. Web search is off because PC can't do it and GLM will invent results. Option 2 keeps PC separate from a Claude subscription, which is how I run it. New to Claude Code? Option 1 is the same with plain `claude` |
+| 4 | `mkdir -p ~/AI && cd ~/AI && claude-0g`. Theme, trust. Ask `hi, which model are you?` Then open `/model` | It's GLM 5.3 FlashX on PC, not Claude. Nine PC models, one key |
 | 5 | First prompt from the guide: the workspace `CLAUDE.md`. Show the file | This is the master session. It knows the map |
 | 6 | Second prompt: `team-intro`. Paste a real bio, lots of it | Give it everything: dump context. It opens in Chrome when done |
 | 7 | Find something you don't like in the page. Say what you want instead and ask it to save a rule. Show the rule | Never accept a miss. Check it wrote an example, not a "don't" |
@@ -89,11 +94,12 @@ quit Claude Code (`/exit`) and store the key off screen in the sandbox shell:
 read -rs "MK?Paste your 0G management key: " && echo && mkdir -p ~/.config/0g && print -r -- "$MK" > ~/.config/0g/mk && chmod 600 ~/.config/0g/mk && unset MK
 ```
 
-Back in `claude`:
+Back in `claude-0g`:
 
 ```text
 Add my 0G Private Computer balance to the Claude Code status line, after the
-model name. My management key is in ~/.config/0g/mk, never print it. Fetch
+model name. My settings are in ~/.claude-0g/settings.json. My management key
+is in ~/.config/0g/mk, never print it. Fetch
 GET https://router-api.0g.ai/v1/account/balance with the header
 "Authorization: Bearer <key>". It returns JSON with currency and
 total_balance. A usd balance is in micro-dollars, so divide by 1,000,000 and
@@ -106,7 +112,7 @@ what it builds against that. Not run through PC yet, so rehearse it.
 
 Things to avoid on screen:
 
-- Don't `cat ~/.claude/settings.json`. The key is in it.
+- Don't `cat ~/.claude-0g/settings.json`. The key is in it.
 - Don't paste a screenshot after switching to a text-only model (`glm-5.3`,
   the DeepSeeks, Hunyuan). It fails with
   `API Error: 400 Model only supports text input`. The default,
