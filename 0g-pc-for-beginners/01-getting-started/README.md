@@ -102,16 +102,11 @@ unset KEY
 
 What each part does:
 
-- `env` sends requests to the PC router with your key. It sets the default
-  model (`glm-5.3-flashx`), the models behind Claude Code's built-in slots
-  (`glm-5.3`, and the cheap `0gm-1.0-35b-a3b` for background jobs), and the
-  models' real context size.
-- `modelOverrides` sets the model auto mode uses to check each step before it
-  runs. The cheap `0gm-1.0-35b-a3b` is plenty for that.
-- `modelPicker` lists the nine PC models in `/model`, with their prices and
-  whether they can see images.
-- `permissions` turns on auto mode, so it doesn't ask before every step, and
-  turns off web search, which doesn't work through PC and makes up results.
+- `env`: connects to PC with your key and picks the models.
+- `modelOverrides`: a cheap model for quick safety checks.
+- `modelPicker`: the PC models you see in `/model`.
+- `permissions`: fewer approval prompts, and web search off because it doesn't
+  work on PC.
 
 **The command.** `claude-0g` is a tiny script that runs Claude Code with its
 settings folder pointed at `~/.claude-0g`. That's the whole trick: plain
@@ -265,5 +260,6 @@ call them for you through the PC API.
 | Drag a file in | Attach a PDF, doc or image |
 | `Shift Tab` | Change how much it asks before acting |
 
-Your real spend is on [pc.0g.ai](https://pc.0g.ai). Claude Code doesn't know
-PC prices, so ignore the cost it shows.
+Your balance is on [pc.0g.ai](https://pc.0g.ai), and in your status line if
+you did step 5. Ignore the cost in `/usage`, because Claude Code doesn't know
+PC prices.

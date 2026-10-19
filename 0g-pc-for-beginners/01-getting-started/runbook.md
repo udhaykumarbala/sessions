@@ -113,8 +113,8 @@ Things to avoid on screen:
   the DeepSeeks, Hunyuan). It fails with
   `API Error: 400 Model only supports text input`. The default,
   `glm-5.3-flashx`, reads images fine.
-- Ignore the cost Claude Code shows. It doesn't know PC prices. A one-line
-  hello showed $0.09.
+- Don't open `/usage` to show spend. Its cost is wrong for PC models (a
+  one-line hello showed $0.09). Point at the status line balance instead.
 
 If things go wrong:
 
