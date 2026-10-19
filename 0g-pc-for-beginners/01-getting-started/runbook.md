@@ -81,34 +81,14 @@ other.
 | 6 | Second prompt: `team-intro`. Paste a real bio, lots of it | Give it everything: dump context. It opens in Chrome when done |
 | 7 | Find something you don't like in the page. Say what you want instead and ask it to save a rule. Show the rule | Never accept a miss. Check it wrote an example, not a "don't" |
 | 8 | Optional: `Put the team-intro project on GitHub as a private repo`. Sign in with `! gh auth login` | Starts local, goes to GitHub when it's worth keeping |
-| 8b | Optional: the balance status line, below | Claude Code can improve its own setup. Look how much context the prompt gives it |
+| 8b | Optional: guide step 7, the balance status line. Create the management key with the fields above, `/exit`, run the key line, back in `claude-0g`, paste the prompt | Claude Code changing its own setup. Look how much context the prompt gives it. The API key can't read the balance (403), hence the management key |
+| 8c | `/effort max` on a tricky question, then `/effort low` | The second lever after the model: more thinking, slower, more tokens, fewer mistakes |
 | 9 | Switch to your own setup: `~/Repos` and its `CLAUDE.md` map, `dotfiles` and `install.sh`, `claude-0g` | Same shape, grown over time |
 
-### 8b: PC balance in the status line
-
-The `sk-` key can't read the balance (the router returns 403), which is why
-this needs the management key. Create it in Chrome with the fields above, then
-quit Claude Code (`/exit`) and store the key off screen in the sandbox shell:
-
-```sh
-read -rs "MK?Paste your 0G management key: " && echo && mkdir -p ~/.config/0g && print -r -- "$MK" > ~/.config/0g/mk && chmod 600 ~/.config/0g/mk && unset MK
-```
-
-Back in `claude-0g`:
-
-```text
-Add my 0G Private Computer balance to the Claude Code status line, after the
-model name. My settings are in ~/.claude-0g/settings.json. My management key
-is in ~/.config/0g/mk, never print it. Fetch
-GET https://router-api.0g.ai/v1/account/balance with the header
-"Authorization: Bearer <key>". It returns JSON with currency and
-total_balance. A usd balance is in micro-dollars, so divide by 1,000,000 and
-show it like $12.34. Cache it for a minute so the status line never waits on
-the network.
-```
-
-That's the same endpoint and maths as the `dotfiles` status line, so check
-what it builds against that. Not run through PC yet, so rehearse it.
+The status line prompt hasn't been run through PC, because it's interactive
+and edits settings outside the working folder. Rehearse it tonight, and check
+the result against your `dotfiles` status line, which uses the same endpoint
+and maths. Expect a permission prompt when it edits `~/.claude-0g/settings.json`.
 
 Things to avoid on screen:
 

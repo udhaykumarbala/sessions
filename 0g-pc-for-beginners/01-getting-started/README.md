@@ -83,15 +83,15 @@ cat > "$DIR/settings.json" <<EOF
   "modelPicker": {
     "replaceBuiltInOptions": true,
     "options": [
-      { "model": "glm-5.3-flashx", "label": "GLM 5.3 FlashX (default)", "description": "1M context, $0.39/$1.31 per M, sees images" },
-      { "model": "glm-5.3", "label": "GLM 5.3", "description": "1.2M context, $1.40/$4.40 per M, text only" },
-      { "model": "deepseek-v4-flash", "label": "DeepSeek V4 Flash", "description": "1.4M context, $0.26/$0.79 per M, text only" },
-      { "model": "glm-5.3-flash", "label": "GLM 5.3 Flash", "description": "1.2M context, $0.14/$0.50 per M, text only" },
-      { "model": "mimo-v2.6-flash", "label": "MiMo V2.6 Flash", "description": "1M context, $0.21/$0.42 per M, sees images" },
-      { "model": "mimo-v2.6-pro", "label": "MiMo V2.6 Pro", "description": "1M context, $0.63/$1.25 per M, sees images" },
-      { "model": "deepseek-v4-pro", "label": "DeepSeek V4 Pro", "description": "1.4M context, $0.79/$2.38 per M, text only" },
-      { "model": "hy4-preview", "label": "Hunyuan 4 Preview", "description": "1M context, $1.25/$3.75 per M, text only" },
-      { "model": "step-5-preview", "label": "Step 5 Preview", "description": "1M context, $1.46/$4.17 per M, sees images" }
+      { "model": "glm-5.3-flashx", "label": "0G: GLM 5.3 FlashX (default)", "description": "1M context, $0.39/$1.31 per M, sees images" },
+      { "model": "glm-5.3", "label": "0G: GLM 5.3", "description": "1.2M context, $1.40/$4.40 per M, text only" },
+      { "model": "deepseek-v4-flash", "label": "0G: DeepSeek V4 Flash", "description": "1.4M context, $0.26/$0.79 per M, text only" },
+      { "model": "glm-5.3-flash", "label": "0G: GLM 5.3 Flash", "description": "1.2M context, $0.14/$0.50 per M, text only" },
+      { "model": "mimo-v2.6-flash", "label": "0G: MiMo V2.6 Flash", "description": "1M context, $0.21/$0.42 per M, sees images" },
+      { "model": "mimo-v2.6-pro", "label": "0G: MiMo V2.6 Pro", "description": "1M context, $0.63/$1.25 per M, sees images" },
+      { "model": "deepseek-v4-pro", "label": "0G: DeepSeek V4 Pro", "description": "1.4M context, $0.79/$2.38 per M, text only" },
+      { "model": "hy4-preview", "label": "0G: Hunyuan 4 Preview", "description": "1M context, $1.25/$3.75 per M, text only" },
+      { "model": "step-5-preview", "label": "0G: Step 5 Preview", "description": "1M context, $1.46/$4.17 per M, sees images" }
     ]
   },
   "permissions": {
@@ -176,6 +176,9 @@ When it gets something wrong, fix it for good:
 ~/.claude/CLAUDE.md with a short example.
 ```
 
+That path works with `claude-0g` too, because option 1 links its rules to the
+same file.
+
 ### 6. Put a project on GitHub (optional)
 
 When a project is worth keeping or sharing:
@@ -187,7 +190,45 @@ Put the team-intro project on GitHub as a private repo.
 The first time, it will help you install the GitHub CLI and ask you to sign
 in. Run the sign-in yourself by typing `! gh auth login` in Claude Code.
 
-## Models
+### 7. Show your PC balance in the status line (optional)
+
+Here you get Claude Code to change its own setup. Reading your balance needs a
+separate management key, because API keys can't see it. On
+[pc.0g.ai](https://pc.0g.ai), go to **Settings → Management Keys → Create**,
+pick **Custom** and tick only `account:read`. Name it like
+`claude-code-balance`.
+
+Back in your terminal (outside Claude Code), run this and paste the key. It's
+saved where only you can read it.
+
+```sh
+printf "Paste your 0G management key, then press Enter: "; read -rs MK; echo; mkdir -p ~/.config/0g && (umask 077; printf '%s\n' "$MK" > ~/.config/0g/mk); unset MK
+```
+
+Then start Claude Code and give it this:
+
+```text
+Show my 0G PC balance in your status line, next to the model name. Here's how
+status lines work: https://code.claude.com/docs/en/statusline. My settings are
+in $CLAUDE_CONFIG_DIR/settings.json, or ~/.claude/settings.json if that isn't
+set. Get the balance from https://router-api.0g.ai/v1/account/balance using
+the key in ~/.config/0g/mk as a Bearer token, and never print the key.
+total_balance is in micro-dollars, so show it like $12.34, and refresh it in
+the background at most once a minute.
+```
+
+It will ask before changing its own settings. Say yes, and the balance shows
+up below the prompt.
+
+## Models and effort
+
+Two settings change what you get. `/model` picks the model, and `/effort`
+sets how long it thinks before answering: `/effort low`, `medium`, `high`,
+`xhigh` or `max`. More effort is slower and uses more output tokens, but makes
+fewer mistakes on tricky problems. In our tests, FlashX on `low` got a
+counting puzzle wrong one time in two, and on `max` it got it right both
+times, using two to three times the tokens. Leave effort alone for most work,
+raise it for hard problems and lower it for quick jobs.
 
 Type `/model` to pick from the nine PC models in your menu. Start with these:
 
