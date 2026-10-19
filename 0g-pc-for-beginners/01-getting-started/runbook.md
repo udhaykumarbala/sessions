@@ -1,7 +1,7 @@
 # 1. Getting Started: runbook
 
 Presenter notes for the live part of session 1: setting up Claude Code on PC
-from scratch. The steps follow the [series README](README.md).
+from scratch. The steps follow the [attendee guide](README.md).
 
 The demo runs in a sandbox shell whose `HOME` is `~/DemoHome`. Nothing from
 `~/.claude`, `~/.zshrc` or `~/.local/bin` is visible there, so `claude` is
@@ -45,7 +45,7 @@ For a rehearsal, swap in that day's date.
    git config --global user.email wriches@gmail.com
    ```
 
-3. Rehearse steps 1 to 5 below against the README, with a throwaway key. The
+3. Rehearse steps 1 to 5 below against the attendee guide, with a throwaway key. The
    install and a headless call through PC were tested in the same kind of
    sandbox and both worked (`glm-5.3` answered in 12s). The interactive
    first-run screens weren't tested, so watch for what appears between
@@ -53,24 +53,24 @@ For a rehearsal, swap in that day's date.
    notice about classifier billing through `router-api.0g.ai` (harmless).
 4. Reset: `rm -rf ~/DemoHome`, then repeat 1 and 2. Delete the rehearsal key
    on pc.0g.ai.
-5. Push this repo and the deck. The deck's QR code points at this series
+5. Push this repo and the deck. The deck's QR code points at this session's
    folder.
 6. Check everyone has a PC account with balance before the session, or step 2
    stalls for half the room.
 
 ## Live (about 25 min)
 
-Screen: the sandbox Terminal on one side, Chrome on the series README on the
+Screen: the sandbox Terminal on one side, Chrome on the attendee guide on the
 other.
 
 | # | Do | Say |
 |---|----|-----|
 | 0 | `claude` → `command not found` | This is a Mac with nothing installed |
-| 1 | Copy the install line from the README. Run the `PATH` line it prints, then `claude --version` | One command, no Node, no Homebrew |
+| 1 | Copy the install line from the guide. Run the `PATH` line it prints, then `claude --version` | One command, no Node, no Homebrew |
 | 2 | Chrome: pc.0g.ai → Dashboard → API Keys → Create, with the fields above | One key, every model. Shown once, so copy it now |
-| 3 | README step 3: the `read` line, paste the key, then the settings block | Where to send requests, your key, which models, auto mode. Web search is off because PC can't do it and GLM will invent results |
+| 3 | Guide step 3: the `read` line, paste the key, then the settings block | Where to send requests, your key, which models, auto mode. Web search is off because PC can't do it and GLM will invent results |
 | 4 | `mkdir -p ~/AI && cd ~/AI && claude`. Theme, trust. Ask `hi, which model are you?` | It's GLM 5.3 on PC, not Claude |
-| 5 | First prompt from the README: the workspace `CLAUDE.md`. Show the file | This is the master session. It knows the map |
+| 5 | First prompt from the guide: the workspace `CLAUDE.md`. Show the file | This is the master session. It knows the map |
 | 6 | Second prompt: `team-intro`. Paste a real bio, lots of it | Give it everything: dump context. It opens in Chrome when done |
 | 7 | Find something you don't like in the page. Say what you want instead and ask it to save a rule. Show the rule | Never accept a miss. Check it wrote an example, not a "don't" |
 | 8 | Optional: `Put the team-intro project on GitHub as a private repo`. Sign in with `! gh auth login` | Starts local, goes to GitHub when it's worth keeping |
