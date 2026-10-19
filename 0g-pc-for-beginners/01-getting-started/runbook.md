@@ -89,7 +89,7 @@ other.
 
 1. Open with `claude` → `command not found`. This is a Mac with nothing
    installed.
-2. Work through the attendee guide, steps 1 to 7, copying each block from it.
+2. Work through the attendee guide, steps 1 to 8, copying each block from it.
    Use the key fields above in steps 2 and 5. Worth saying along the way:
    - Step 3: read out the "what each part does" list. `claude-0g` sits
      alongside plain `claude`, which is how you run it.
@@ -120,7 +120,7 @@ If things go wrong:
 
 - Slow replies: keep the ask small. FlashX was among the fastest models
   tested, so switching rarely helps.
-- GitHub sign-in drags: skip guide step 7 and show a push from your own setup.
+- GitHub sign-in drags: skip guide step 8 and show a push from your own setup.
   Without the keychain, `gh` stores its token in plain text under
   `~/DemoHome/.config/gh`, which teardown deletes.
 
@@ -130,5 +130,5 @@ If things go wrong:
   `demo-ai-session-2026-10-20-balance` management key. Both were on screen
   when created.
 - `rm -rf ~/DemoHome`
-- If you did guide step 7: `gh repo delete wriches/team-intro` from your normal
+- If you did guide step 8: `gh repo delete wriches/team-intro` from your normal
   shell.

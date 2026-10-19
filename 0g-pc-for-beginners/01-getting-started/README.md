@@ -32,8 +32,8 @@ Check it worked with `claude --version`.
 ### 2. Create an API key
 
 On [pc.0g.ai](https://pc.0g.ai), go to **Dashboard → API Keys → Create**.
-Name it after the machine, like `claude-code-macbook`. Pick trust mode
-**Private** if you want every request to run inside a TEE.
+Name it after the machine, like `claude-code-macbook`. For extra privacy, pick
+trust mode **Private**.
 
 Copy the key. It starts with `sk-` and is only shown once.
 
@@ -51,9 +51,7 @@ you paste, so the key stays off your screen.
 printf "Paste your 0G API key, then press Enter: "; read -rs KEY; echo
 ```
 
-**The folders.** `~/.claude-0g` holds `claude-0g`'s settings and history.
-`~/.claude` is plain Claude Code's folder, where your personal rules live.
-`~/.local/bin` is where commands you add go.
+**The folders.** Creates the folders it needs.
 
 ```sh
 mkdir -p ~/.claude-0g ~/.claude ~/.local/bin
@@ -108,9 +106,7 @@ What each part does:
 - `permissions`: fewer approval prompts, and web search off because it doesn't
   work on PC.
 
-**The command.** `claude-0g` is a tiny script that runs Claude Code with its
-settings folder pointed at `~/.claude-0g`. That's the whole trick: plain
-`claude` still uses `~/.claude`.
+**The command.** Adds the `claude-0g` command.
 
 ```sh
 cat > ~/.local/bin/claude-0g <<'EOF'
@@ -212,7 +208,20 @@ When it gets something wrong, fix it for good:
 ~/.claude/CLAUDE.md with a short example.
 ```
 
-### 7. Put a project on GitHub (optional)
+### 7. Run a command yourself
+
+Start a message with `!` to run a terminal command yourself, without leaving
+Claude Code. For example, to list the files in `team-intro`:
+
+```text
+! ls team-intro
+```
+
+Claude Code sees the command and what it prints. Use it when you want Claude
+to know the result, like a sign-in or an error. Don't use it for anything
+private, like a key. Run that in a separate terminal window instead.
+
+### 8. Put a project on GitHub (optional)
 
 When a project is worth keeping or sharing:
 
@@ -220,33 +229,25 @@ When a project is worth keeping or sharing:
 Put the team-intro project on GitHub as a private repo.
 ```
 
-The first time, it will help you install the GitHub CLI and ask you to sign
-in. Run the sign-in yourself by typing `! gh auth login` in Claude Code.
+The first time, it will help you set up GitHub and ask you to sign in. Do the
+sign-in yourself by typing `! gh auth login`.
 
 ## Models and effort
 
-Two settings change what you get. `/model` picks the model, and `/effort`
-sets how long it thinks before answering: `/effort low`, `medium`, `high`,
-`xhigh` or `max`. More effort is slower and uses more output tokens, but makes
-fewer mistakes on tricky problems. In our tests, FlashX on `low` got a
-counting puzzle wrong one time in two, and on `max` it got it right both
-times, using two to three times the tokens. Leave effort alone for most work,
-raise it for hard problems and lower it for quick jobs.
+`/model` picks the model. `/effort` sets how long it thinks before answering,
+from `low` to `max`. Raise it for tricky problems, lower it for quick jobs.
 
-Type `/model` to pick from the nine PC models in your menu. Start with these:
+Your `/model` menu has nine PC models. Start with these:
 
-| Model | Use it for | Context | Images in | $ per M tokens, in / out |
-|-------|------------|---------|-----------|--------------------------|
-| `glm-5.3-flashx` | Default for everything, screenshots included | 1M | Yes | 0.39 / 1.31 |
-| `glm-5.3` | Long, hard jobs | 1.2M | No | 1.40 / 4.40 |
-| `deepseek-v4-flash` | The cheapest that's still reliable | 1.4M | No | 0.26 / 0.79 |
+| Model | Use it for | Sees screenshots |
+|-------|------------|------------------|
+| `glm-5.3-flashx` | The default, for almost everything | Yes |
+| `glm-5.3` | Long, hard jobs. Costs more | No |
+| `deepseek-v4-flash` | The cheapest that's still reliable | No |
 
-A text-only model can't see screenshots. Pasting one in fails with
-`Model only supports text input`, so switch back to `glm-5.3-flashx` first.
-
-Claude models are on PC too, at 5 to 15 times the price, so they're left out
-of the menu. Image and video models can't run Claude Code, but Claude Code can
-call them for you through the PC API.
+Pasting a screenshot into a model that can't see them gives an error, so
+switch back to `glm-5.3-flashx` first. Claude models are on PC too, but cost 5
+to 15 times more, so they're not in the menu.
 
 ## Everyday basics
 
@@ -256,7 +257,6 @@ call them for you through the PC API.
 | `/clear` | Start fresh when you move to a new task |
 | `claude-0g --continue` | Pick up your last conversation in this folder |
 | `claude-0g --resume` | Choose an older conversation to pick up |
-| `! command` | Run a terminal command yourself, inside Claude Code |
 | Drag a file in | Attach a PDF, doc or image |
 | `Shift Tab` | Change how much it asks before acting |
 
